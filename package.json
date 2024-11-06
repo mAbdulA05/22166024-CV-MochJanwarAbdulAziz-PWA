@@ -1,0 +1,12 @@
+{
+    "name": "abdul-pwa",
+    "version": "1.0.0",
+    "description": "A simple PWA portfolio",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "author": "Moch. Janwar Abdul Azis",
+    "license": "ISC"
+  }
+  

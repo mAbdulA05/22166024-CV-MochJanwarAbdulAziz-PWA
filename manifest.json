@@ -1,0 +1,39 @@
+{
+    "name": "Portofolio Moch. Janwar Abdul Azis",
+    "short_name": "Portofolio",
+    "description": "PWA Portofolio dari Moch. Janwar Abdul Azis",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#343a40",
+    "icons": [
+        {
+            "src": "img/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "img/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "img/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "img/screenshot-wide.jpg",
+            "sizes": "1280x720",
+            "type": "image/jpg",
+            "form_factor": "wide"
+        },
+        {
+            "src": "img/screenshot-mobile.jpg",
+            "sizes": "720x1280",
+            "type": "image/jpg"
+        }
+    ]
+}
