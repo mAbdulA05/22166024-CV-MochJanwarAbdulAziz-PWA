@@ -1,3 +1,88 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Meminta izin notifikasi ketika aplikasi dimuat
+    Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+            console.log('Notification permission granted.');
+        } else {
+            console.log('Notification permission denied.');
+        }
+    });
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+    }
+
+    navigator.serviceWorker.ready.then(registration => {
+        return registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array('<Your-VAPID-Public-Key>')
+        });
+    }).then(subscription => {
+        return fetch('http://localhost:8080/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    });
+    
+    
+// Daftarkan push subscription
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(registration => {
+        const subscribeOptions = {
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array('<Your-VAPID-Public-Key>')
+        };
+
+        return registration.pushManager.subscribe(subscribeOptions);
+    }).then(pushSubscription => {
+        console.log('Received PushSubscription:', JSON.stringify(pushSubscription));
+        // Kirim pushSubscription ke server
+        return fetch('/subscribe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pushSubscription)
+        });
+    }).then(response => {
+        if (response.ok) {
+            console.log('User subscribed to push notifications.');
+        }
+    }).catch(error => {
+        console.error('Failed to subscribe the user: ', error);
+    });
+}
+});
+
+// Fungsi untuk konversi VAPID key
+function urlBase64ToUint8Array(base64String) {
+const padding = '='.repeat((4 - base64String.length % 4) % 4);
+const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+const rawData = window.atob(base64);
+const outputArray = new Uint8Array(rawData.length);
+
+for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+}
+return outputArray;
+}
+
+
+
+
+
+
+
+
 (function ($) {
     "use strict";
     
