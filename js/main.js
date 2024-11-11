@@ -25,9 +25,9 @@ function requestNotificationPermission() {
         Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
                 showWelcomeNotification(); // Menampilkan notifikasi selamat datang
-                console.log('Izin notifikasi diberikan.');
+                console.log('Notification permission granted.');
             } else {
-                console.log('Izin notifikasi ditolak.');
+                console.log('Notification permission denied.');
             }
         });
     } else {
@@ -35,25 +35,28 @@ function requestNotificationPermission() {
     }
 }
 
-// Menampilkan notifikasi selamat datang
 function showWelcomeNotification() {
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.getRegistration().then(reg => {
             if (reg) {
                 reg.showNotification("🎉 Selamat Datang di Portofolio Saya!", {
                     body: "Terima kasih sudah berkunjung! Jelajahi proyek dan keterampilan saya di sini. Semoga Anda terinspirasi!",
-                    icon: "/path/to/icon.png",  // Ganti dengan path ikon PWA Anda
-                    badge: "/path/to/badge-icon.png", // Ganti dengan ikon badge jika ada (opsional)
+                    icon: "/icons/maskable_icon_x192.png",  // Path ke ikon dari manifest
+                    badge: "/icons/maskable_icon_x48.png", // Path ke badge icon jika ingin menambahkannya
                     vibrate: [200, 100, 200],   // Pola getaran (opsional)
                     actions: [
-                        { action: 'explore', title: 'Lihat Proyek', icon: '/path/to/explore-icon.png' },
-                        { action: 'close', title: 'Tutup', icon: '/path/to/close-icon.png' }
+                        { action: 'explore', title: 'Lihat Proyek', icon: '/icons/maskable_icon_x72.png' },
+                        { action: 'close', title: 'Tutup', icon: '/icons/maskable_icon_x48.png' }
                     ]
                 });
             }
         });
     }
 }
+
+// Panggil fungsi ini saat aplikasi di-load atau pertama kali pengguna membuka aplikasi
+requestNotificationPermission();
+
 
 
     
