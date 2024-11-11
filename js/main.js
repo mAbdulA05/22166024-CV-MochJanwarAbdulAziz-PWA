@@ -9,14 +9,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    function requestNotificationPermission() {
+    // Mendaftarkan Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then(() => {
+            console.log('Service Worker berhasil terdaftar');
+            requestNotificationPermission();  // Meminta izin notifikasi setelah SW terdaftar
+        })
+        .catch(error => console.log('Pendaftaran Service Worker gagal:', error));
+}
+
+// Meminta izin notifikasi
+function requestNotificationPermission() {
     if ('Notification' in window && 'serviceWorker' in navigator) {
         Notification.requestPermission().then(permission => {
             if (permission === 'granted') {
                 showWelcomeNotification(); // Menampilkan notifikasi selamat datang
-                console.log('Notification permission granted.');
+                console.log('Izin notifikasi diberikan.');
             } else {
-                console.log('Notification permission denied.');
+                console.log('Izin notifikasi ditolak.');
             }
         });
     } else {
@@ -24,13 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 }
 
+// Menampilkan notifikasi selamat datang
 function showWelcomeNotification() {
     if (Notification.permission === 'granted') {
         navigator.serviceWorker.getRegistration().then(reg => {
             if (reg) {
                 reg.showNotification("🎉 Selamat Datang di Portofolio Saya!", {
                     body: "Terima kasih sudah berkunjung! Jelajahi proyek dan keterampilan saya di sini. Semoga Anda terinspirasi!",
-                    icon: "/path/to/icon.png",  // Ganti dengan ikon PWA Anda
+                    icon: "/path/to/icon.png",  // Ganti dengan path ikon PWA Anda
                     badge: "/path/to/badge-icon.png", // Ganti dengan ikon badge jika ada (opsional)
                     vibrate: [200, 100, 200],   // Pola getaran (opsional)
                     actions: [
@@ -43,8 +55,6 @@ function showWelcomeNotification() {
     }
 }
 
-// Panggil fungsi ini saat aplikasi di-load atau pertama kali pengguna membuka aplikasi
-requestNotificationPermission();
 
     
 
