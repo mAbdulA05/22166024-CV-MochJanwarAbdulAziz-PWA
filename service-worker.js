@@ -71,7 +71,7 @@ self.addEventListener('activate', event => {
 self.addEventListener('notificationclick', event => {
     event.notification.close();
     if (event.action === 'explore') {
-        clients.openWindow('/projects'); // Ganti dengan URL proyek Anda jika ada
+        clients.openWindow('https://github.com/mAbdulA05'); // Ganti dengan URL proyek Anda jika ada
     }
 });
 
