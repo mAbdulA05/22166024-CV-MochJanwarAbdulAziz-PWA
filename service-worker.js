@@ -58,3 +58,20 @@ const staticAssets = [
       return await cache.match(request);
     }
   }
+
+
+    self.addEventListener('install', event => {
+    console.log('Service Worker: Installed');
+});
+
+self.addEventListener('activate', event => {
+    console.log('Service Worker: Activated');
+});
+
+self.addEventListener('notificationclick', event => {
+    event.notification.close();
+    if (event.action === 'explore') {
+        clients.openWindow('/projects'); // Ganti dengan URL proyek Anda jika ada
+    }
+});
+
